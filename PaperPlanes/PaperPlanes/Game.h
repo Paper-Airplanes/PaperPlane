@@ -1,7 +1,7 @@
 #pragma once
 
-
-
+#include<glad\glad.h>
+#include<GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
@@ -11,7 +11,7 @@
 #include<Camera.h>
 #include<Skybox.h>
 #include<Shader.h>
-#include<GLFW/glfw3.h>
+
 
 class Game {
 private:
@@ -28,20 +28,23 @@ private:
 
 public:
 	Game(float SCR_WIDTH, float SCR_HEIGHT) {
+		init();
 		width = SCR_WIDTH;
 		height = SCR_HEIGHT;
-		init();
+		
 		//initCamera();
 	}
 	~Game() {
 		delete particleShader;
-		delete skyShader;
+		delete &skyShader;
 		delete skybox;
 		delete camera;
+		
 	}
 	void init() {
 		//init shader----------------------------------------------------
-		skyShader = new Shader("./shader/skybox.vs", "./shader/skybox.fs");
+		//skyShader = new Shader("./shader/skybox.vs", "./shader/skybox.fs");
+		//Shader ourshader("./shader/Particle.vs", "./shader/Particle.fs");
 		particleShader = new Shader("./shader/Particle.vs", "./shader/Particle.fs");
 
 		//GameObject-----------------------------------------------------
@@ -76,25 +79,41 @@ public:
 
 	}
 	void renderScene() {
+		glViewport(0, 0, 1280, 720);
 		renderSkybox();
 		renderParticle();
 	}
+	/*
+	void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+	{
+		glViewport(0, 0, width, height);
+	}
+	*/
 	void initWindows(float width, float height) {
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		window = glfwCreateWindow(width, height, "GLMaze", NULL, NULL);
+		window = glfwCreateWindow(width, height, "PaperPlane", NULL, NULL);
 		glfwMakeContextCurrent(window);
+		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		glEnable(GL_DEPTH_TEST);
 	}
 	void render() {
 		initWindows(width, height);
 		while (!glfwWindowShouldClose(window)) {
-			glfwPollEvents();
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			renderScene();
+
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+			
 		}
+		glfwTerminate();
 	}
+
 };

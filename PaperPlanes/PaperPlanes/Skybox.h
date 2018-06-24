@@ -1,7 +1,10 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
-#include <GLFW/glfw3.h>
+
+
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
@@ -13,9 +16,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#define STB_IMAGE_IMPLEMENTATION
+#include<stb/stb_image.h>
 
 
-#include "stb/stb_image.h"
 
 using namespace std;
 
