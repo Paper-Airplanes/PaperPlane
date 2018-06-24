@@ -1,0 +1,13 @@
+
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+.vs/
+
+*.pdb
+*.ilk
+*.APS
+
+*.VC.db
+*.VC.VC.opendb
