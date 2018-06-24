@@ -5,9 +5,9 @@
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
 
-#include <shader.h>
-#include <camera.h>
-#include <skybox.h>
+#include <Shader.h>
+#include <Camera.h>
+#include <Skybox.h>
 
 #include <iostream>
 #include <vector>

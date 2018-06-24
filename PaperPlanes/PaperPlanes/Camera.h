@@ -2,10 +2,9 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glad/glad.h>
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
-
+#include<glad\glad.h>
 class Camera {
 public:
 	Camera(glm::vec3 position, glm::vec3 front, glm::vec3 up, GLfloat speed) {
