@@ -18,22 +18,36 @@
     <ClCompile Include="dependencies\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="demo\SkyBox_Demo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
+    <ClInclude Include="Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="skybox.h">
+    <ClInclude Include="Skybox.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\skybox.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\skybox.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\Particle.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\Particle.vs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

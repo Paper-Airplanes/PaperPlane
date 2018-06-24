@@ -1,8 +1,7 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
-
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
@@ -19,7 +18,6 @@
 #include "stb/stb_image.h"
 
 using namespace std;
-
 
 float skyboxVertices[] = {
 	// positions          
@@ -66,17 +64,24 @@ float skyboxVertices[] = {
 	1.0f, -1.0f,  1.0f
 };
 
+
 class Skybox {
+private:
+	unsigned int skyboxVAO, skyboxVBO;
+	unsigned int skytexture;
 public:
 	
        
 
 
-	Skybox() {}
-
-	void RenderSkybox(float width, float height, const Shader &shader, Camera camera) {
-		// skybox VAO
-		unsigned int skyboxVAO, skyboxVBO;
+	Skybox(vector<std::string> faces) {
+		init();
+		skytexture = loadCubemap(faces);
+	}
+	~Skybox() {
+		delete[] skyboxVertices;
+	}
+	void init() {
 		glGenVertexArrays(1, &skyboxVAO);
 		glGenBuffers(1, &skyboxVBO);
 		glBindVertexArray(skyboxVAO);
@@ -86,16 +91,27 @@ public:
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 
-		// draw skybox as last
-		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+		 // change depth function so depth test passes when values are equal to depth buffer's content
 
+
+		/*
 		glm::mat4 view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
 		shader.setMat4("view", view);
 		glm::mat4 projection = glm::perspective(45.0f, width / height, 0.1f, 100.0f);
 
 		shader.setMat4("projection", projection);
+
+		*/
+
+		
+	}
+
+	void draw() {
+		// draw skybox as last
+		glDepthFunc(GL_LEQUAL);
 		// skybox cube
 		glBindVertexArray(skyboxVAO);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skytexture);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // set depth function back to default
@@ -118,7 +134,7 @@ public:
 			}
 			else
 			{
-				std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+				std::cout << "Skybox texture failed to load at path: " << faces[i] << std::endl;
 				stbi_image_free(data);
 			}
 		}
