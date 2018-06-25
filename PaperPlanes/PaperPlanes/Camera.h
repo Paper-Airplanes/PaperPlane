@@ -53,8 +53,17 @@ public:
 		cameraRight = glm::normalize(glm::cross(cameraFront, glm::vec3(0.0f, 1.0f, 0.0f)));
 		cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 	}
-	glm::vec3 GetPosition() {
+	glm::vec3 getPosition() {
 		return cameraPos;
+	}
+	glm::vec3 getUp() {
+		return cameraUp;
+	}
+	glm::vec3 getRight() {
+		return cameraRight;
+	}
+	glm::vec3 getFront() {
+		return cameraFront;
 	}
 private:
 	//GLfloat pfov, pratio, pnear, pfar;

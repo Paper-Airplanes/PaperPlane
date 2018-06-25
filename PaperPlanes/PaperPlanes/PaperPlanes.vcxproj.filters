@@ -41,7 +41,10 @@
     <ClInclude Include="texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="controls.h">
+    <ClInclude Include="Particle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,6 +59,12 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="shader\skybox.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\view.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\view.vs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
