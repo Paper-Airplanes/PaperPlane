@@ -248,7 +248,7 @@ private:
 	unsigned int ParticlesCount;
 	float WIDTH = 1280, HEIGHT = 720;
 
-	static const int MaxParticles = 20000;
+	static const int MaxParticles = 1000;
 	int LastUsedParticle = 0;
 	particle ParticlesContainer[MaxParticles];
 
