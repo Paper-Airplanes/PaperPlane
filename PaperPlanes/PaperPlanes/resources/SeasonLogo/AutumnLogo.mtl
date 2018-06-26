@@ -12,6 +12,6 @@ newmtl ?
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka G:\??\Project\??\?.png
-	map_Kd G:\??\Project\??\?.png
-	map_d G:\??\Project\??\?.png
+	map_Ka Autumn.png
+	map_Kd Autumn.png
+	map_d Autumn.png
