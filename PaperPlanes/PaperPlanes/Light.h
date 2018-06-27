@@ -13,8 +13,9 @@ public:
 	mat4 lightSpaceMatrix;
 	Light(vec3 pos) {
 		lightPosition = pos;
-		float near_plane = 1.0f, far_plane = 7.5f;
-		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		float near_plane = 1.0f, far_plane = 500.0f;
+		lightProjection = glm::ortho(-1000.0f, 1000.0f, -1000.0f, 1000.0f, near_plane, far_plane);
+		//lightProjection = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
 		lightView = glm::lookAt(lightPosition, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 		lightSpaceMatrix = lightProjection * lightView;
 	}
