@@ -1,5 +1,5 @@
 # Blender MTL File: 'Summer.blend'
-# Material Count: 43
+# Material Count: 42
 
 newmtl Material.000
 Ns 96.078431
@@ -330,16 +330,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-
-newmtl tree
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.025134 0.061264 0.007769
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
 
 newmtl tree.001
 Ns 96.078431
