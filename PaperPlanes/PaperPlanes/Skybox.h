@@ -1,24 +1,22 @@
-#ifndef SKYBOX_H
-#define SKYBOX_H
+
 
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
+#include <stb_image.h>
+
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
 
-#include <shader.h>
-#include <camera.h>
+#include <Shader.h>
+#include <Camera.h>
 
 #include <iostream>
 #include <vector>
 #include <string>
-#define STB_IMAGE_IMPLEMENTATION
-#include<stb/stb_image.h>
-
 
 
 using namespace std;
@@ -154,6 +152,3 @@ public:
 	}
 
 };
-
-
-#endif

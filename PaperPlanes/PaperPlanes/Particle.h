@@ -1,10 +1,7 @@
 #pragma once
-
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
 #define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
-
-#define _CRT_SECURE_NO_WARNINGS  
 
 #include<glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -108,10 +105,10 @@ public:
 			ParticlesContainer[particleIndex].r = 255;// rand() % 256;
 			ParticlesContainer[particleIndex].g = 255;// rand() % 256;
 			ParticlesContainer[particleIndex].b = 255;// rand() % 256;
-			ParticlesContainer[particleIndex].a = (rand() % 256) / 3;
+			ParticlesContainer[particleIndex].a = (rand() % 256) / 2;
 
 			//ParticlesContainer[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
-			ParticlesContainer[particleIndex].size = 0.4f;
+			ParticlesContainer[particleIndex].size = 0.6f;
 		}
 
 		// Simulate all particles
