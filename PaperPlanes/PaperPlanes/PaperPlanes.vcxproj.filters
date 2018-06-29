@@ -50,6 +50,9 @@
     <ClInclude Include="stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Shadow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\Particle.fs">
@@ -74,6 +77,12 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="shader\1.model_loading.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\shadow_depth.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\shadow_depth.vs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

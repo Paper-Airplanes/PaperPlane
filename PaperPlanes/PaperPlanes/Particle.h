@@ -82,15 +82,15 @@ public:
 		lastTime = currentTime;
 
 		// Generate 10 new particule each millisecond
-		int newparticles = (int)(delta*10000.0);
-		if (newparticles > (int)(0.016f*10000.0))
-			newparticles = (int)(0.016f*10000.0);
+		int newparticles = (int)(delta*2000.0);
+		if (newparticles > (int)(0.016f*2000.0))
+			newparticles = (int)(0.016f*2000.0);
 		for (int i = 0; i<newparticles; i++) {
 			int particleIndex = FindUnusedParticle();
-			ParticlesContainer[particleIndex].life = 5.0f; // This particle will live 5 seconds.
-			ParticlesContainer[particleIndex].pos = glm::vec3(rand() % 200, 20, rand() % 200);
+			ParticlesContainer[particleIndex].life = 9.0f; // This particle will live 5 seconds.
+			ParticlesContainer[particleIndex].pos = glm::vec3(rand() % 600-250, 250.0f, rand() % 600-300);
 			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(0.0f, 0.0f, 0.0f);
+			glm::vec3 maindir = glm::vec3(0.0f, -10.0f, 0.0f);
 
 			glm::vec3 randomdir = glm::vec3(
 				(rand() % 2000 - 1000.0f) / 100.0f,
@@ -99,16 +99,16 @@ public:
 				(rand() % 2000 - 1000.0f) / 100.0f
 			);
 
-			ParticlesContainer[particleIndex].speed = glm::vec3(0, 0, 0);
+			ParticlesContainer[particleIndex].speed = glm::vec3(0, -5.0f, 0);
 
 			// Very bad way to generate a random color
 			ParticlesContainer[particleIndex].r = 255;// rand() % 256;
 			ParticlesContainer[particleIndex].g = 255;// rand() % 256;
 			ParticlesContainer[particleIndex].b = 255;// rand() % 256;
-			ParticlesContainer[particleIndex].a = (rand() % 256) / 2;
+			ParticlesContainer[particleIndex].a = rand() % 256 / 1.5;
 
 			//ParticlesContainer[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
-			ParticlesContainer[particleIndex].size = 0.6f;
+			ParticlesContainer[particleIndex].size = 1.0f;
 		}
 
 		// Simulate all particles
@@ -175,7 +175,7 @@ public:
 		glm::vec3 right = glm::normalize(glm::cross(camera->getUp(), camera->getFront()));
 		shader->setVec3("CameraRight_worldspace", right);
 		shader->setVec3("CameraUp_worldspace", camera->getUp());
-		glm::mat4 projection = glm::perspective(45.0f, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(45.0f, (float)WIDTH / (float)HEIGHT, 0.1f, 1000.0f);
 		shader->setMat4("VP", projection*camera->GetViewMatrix());
 
 
@@ -245,7 +245,7 @@ private:
 	unsigned int ParticlesCount;
 	float WIDTH = 1280, HEIGHT = 720;
 
-	static const int MaxParticles = 1000;
+	static const int MaxParticles = 20000;
 	int LastUsedParticle = 0;
 	particle ParticlesContainer[MaxParticles];
 
