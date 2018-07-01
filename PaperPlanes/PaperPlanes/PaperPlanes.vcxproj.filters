@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="dependencies\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\src\glad.c">
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,6 +53,15 @@
     <ClInclude Include="Shadow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MyWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureProcess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\Particle.fs">
@@ -83,6 +92,15 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="shader\shadow_depth.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\gridFragShader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\gridVertexShader.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\gridVertexShader1.vs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

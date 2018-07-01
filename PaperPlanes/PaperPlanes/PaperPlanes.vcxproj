@@ -134,15 +134,21 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MyWindow.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TextureProcess.h" />
+    <ClInclude Include="Wave.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\1.model_loading.fs" />
     <None Include="shader\1.model_loading.vs" />
+    <None Include="shader\gridFragShader.fs" />
+    <None Include="shader\gridVertexShader.vs" />
+    <None Include="shader\gridVertexShader1.vs" />
     <None Include="shader\Particle.fs" />
     <None Include="shader\Particle.vs" />
     <None Include="shader\shadow_depth.fs" />

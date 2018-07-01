@@ -82,9 +82,9 @@ public:
 		lastTime = currentTime;
 
 		// Generate 10 new particule each millisecond
-		int newparticles = (int)(delta*2000.0);
-		if (newparticles > (int)(0.016f*2000.0))
-			newparticles = (int)(0.016f*2000.0);
+		int newparticles = (int)(delta*1000.0);
+		if (newparticles > (int)(0.016f*1000.0))
+			newparticles = (int)(0.016f*1000.0);
 		for (int i = 0; i<newparticles; i++) {
 			int particleIndex = FindUnusedParticle();
 			ParticlesContainer[particleIndex].life = 9.0f; // This particle will live 5 seconds.
@@ -168,10 +168,10 @@ public:
 		//glUseProgram(programID);
 		shader->use();
 		// Bind our texture in Texture Unit 0
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE9);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		shader->setInt("myTextureSampler", 0);
+		shader->setInt("myTextureSampler", 9);
 		glm::vec3 right = glm::normalize(glm::cross(camera->getUp(), camera->getFront()));
 		shader->setVec3("CameraRight_worldspace", right);
 		shader->setVec3("CameraUp_worldspace", camera->getUp());
@@ -245,7 +245,7 @@ private:
 	unsigned int ParticlesCount;
 	float WIDTH = 1280, HEIGHT = 720;
 
-	static const int MaxParticles = 20000;
+	static const int MaxParticles = 10000;
 	int LastUsedParticle = 0;
 	particle ParticlesContainer[MaxParticles];
 

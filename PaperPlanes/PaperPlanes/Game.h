@@ -1,17 +1,16 @@
 #pragma once
-
 #include<glad\glad.h>
 #include<GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
 #include<Skybox.h>
-
+#include<Wave.h>
 #include <iostream>
 #include<Shadow.h>
 #include<Model.h>
 #include<Camera.h>
-
+#include<MyWindow.h>
 #include<Shader.h>
 #include<Particle.h>
 #include<Light.h>
@@ -33,6 +32,8 @@ private:
 	Shader* skyShader;
 	Shader* viewShader;
 	Shader* shadowShader;
+	Shader* waveShader;
+	Shader* lakeShader;
 	//GameObject
 	Skybox* skybox;
 	Camera* camera;
@@ -42,6 +43,9 @@ private:
 	GLFWwindow* window;
 	Light* light;
 	Shadow* shadow;
+	Wave* wave;
+	Wave* lake;
+	Model* winter;
 
 public:
 	Game(float SCR_WIDTH, float SCR_HEIGHT) {
@@ -61,12 +65,15 @@ public:
 		delete skyShader;
 		delete viewShader;
 		delete shadowShader;
+		delete waveShader;
 		delete planemodel;
 		delete shadow;
 		delete skybox;
 		delete camera;
 		delete scenemodel;
-		
+		delete wave;
+		delete lakeShader;
+		delete winter;
 	}
 	void initObject() {
 		//init shader----------------------------------------------------
@@ -74,13 +81,16 @@ public:
 		particleShader = new Shader("./shader/Particle.vs", "./shader/Particle.fs");
 		viewShader = new Shader("./shader/1.model_loading.vs", "./shader/1.model_loading.fs");
 		shadowShader = new Shader("./shader/shadow_depth.vs", "./shader/shadow_depth.fs");
+		waveShader = new Shader("./shader/gridVertexShader.vs", "./shader/gridFragShader.fs");
+		lakeShader = new Shader("./shader/gridVertexShader1.vs", "./shader/gridFragShader.fs");
 		viewShader->use();
 		viewShader->setInt("shadowMap", 10);
-
+		
 		//GameObject-----------------------------------------------------
 		//init camera
-		camera = new Camera(glm::vec3(180.0f, 180.0f, -180.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f);
+		camera = new Camera(glm::vec3(50.0f, 50.0f, 50.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f);
 		//init skybox
+		/*
 		vector<std::string> faces{
 			"./resources/Skybox/right.jpg",
 			"./resources/Skybox/left.jpg",
@@ -91,20 +101,35 @@ public:
 			"./resources/Skybox/front.jpg",
 			"./resources/Skybox/back.jpg",
 		};
+		*/
+		vector<std::string> faces2{
+			"./resources/Skybox/starfield_rt.tga",
+			"./resources/Skybox/starfield_lf.tga",
+			"./resources/Skybox/starfield_up.tga",
+			"./resources/Skybox/starfield_dn.tga",
+			"./resources/Skybox/starfield_bk.tga",
+			"./resources/Skybox/starfield_ft.tga",
+			
+		};
 		//init skybox
-		//skybox = new Skybox(faces);
+		skybox = new Skybox(faces2);
 		//init particle
 		snowparticle = new Particle("./resources/Particle/particle.dds");
 		//init model
 		scenemodel = new Model("./resources/Scene/Winter.obj");
 		//init plane
 		planemodel = new Model("./resources/Plane/Plane.obj");
+		//init seasonlogo
+		winter = new Model("./resources/SeasonLogo/SpringLogo.obj");
 		//init light
 		light = new Light(glm::vec3(180.0f, 180.0f, -180.0f));
+		//light = new Light(glm::vec3(0.25, 0.25f, 1.0f));
 		//init shadow
 		shadow = new Shadow(viewShader);
-		
-		
+		//init wave
+		wave = new Wave(0.8, 1.2, "./resources/texture/water-texture-2.tga");
+		//init lake
+		lake = new Wave(0.6, 0.6, "./resources/texture/water-texture-2.tga");
 	}
 
 	void renderView() {
@@ -161,6 +186,22 @@ public:
 		
 	}
 
+	void renderLogo() {
+		//renderView();
+		glm::mat4 model;
+
+		//model = glm::scale(model, glm::vec3(20.02f, 20.02f, 20.02f));
+		
+		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(5.02f, 5.02f, 5.02f));
+		model = glm::rotate(model, 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, -90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, (float)glfwGetTime()*45.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		
+		viewShader->setMat4("model", model);
+		winter->Draw(viewShader, true);
+	}
+
 	void renderPlane() {
 		
 
@@ -174,6 +215,34 @@ public:
 		viewShader->setMat4("model", model1);
 		planemodel->Draw(viewShader, true);
 	}
+	void renderWave() {
+		waveShader->use();
+		waveShader->setVec3("lightPos", light->lightPosition);
+		glm::mat4 model;
+		model = glm::scale(model, glm::vec3(300.02f, 300.02f, 300.02f));
+		model = glm::rotate(model, 90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-0.15f, -0.33f, 0.015f));
+		waveShader->setMat4("model", model);
+		glm::mat4 projection = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
+		waveShader->setMat4("projection", projection);
+		waveShader->setVec3("viewPos", camera->getPosition());
+		waveShader->setMat4("view", camera->GetViewMatrix());
+		wave->show(waveShader);
+	}
+	void renderLake() {
+		lakeShader->use();
+		lakeShader->setVec3("lightPos", light->lightPosition);
+		glm::mat4 model;
+		model = glm::scale(model, glm::vec3(200.02f, 200.02f, 200.02f));
+		model = glm::rotate(model, 90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.85f, 0.1f, -0.0035f));
+		lakeShader->setMat4("model", model);
+		glm::mat4 projection = glm::perspective(45.0f, (float)width / (float)height, 0.1f, 1000.0f);
+		lakeShader->setMat4("projection", projection);
+		lakeShader->setVec3("viewPos", camera->getPosition());
+		lakeShader->setMat4("view", camera->GetViewMatrix());
+		lake->show(lakeShader);
+	}
 
 	void renderParticle() {
 		particleShader->use();
@@ -186,8 +255,12 @@ public:
 		
 		
 		renderModel();
+		renderLogo();
 		renderPlane();
-		//renderSkybox();
+		renderWave();
+		renderLake();
+		renderSkybox();
+		
 		renderParticle();
 	}
 
@@ -200,19 +273,27 @@ public:
 		window = glfwCreateWindow(width, height, "PaperPlane", NULL, NULL);
 		glfwMakeContextCurrent(window);
 		glfwSetCursorPos(window, 1280 / 2, 720 / 2);
-		//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		//glEnable(GL_DEPTH_TEST);
+		//glDepthFunc(GL_LESS);
 	}
 	void render() {
-		initWindows(width, height);
-		initObject();
+		//initWindows(width, height);
+		if (!myCreateWindow(window, "PaperPlane", 1280, 760)) {
+			//return -1;
+		}
+		
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		initObject();
+
+		
+		
+		//glClearColor(0.3,0.3,0.3,1.0);
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
 			double currentTime = glfwGetTime();
 			deltaTime = currentTime - lastTime;
 			lastTime = currentTime;
@@ -221,12 +302,11 @@ public:
 			mouse_callback(window);
 			processInput(window);
 
-
-			//renderView();
+			renderView();
 			renderScene();
 
 			glfwSwapBuffers(window);
-			//glfwPollEvents();
+			glfwPollEvents();
 			
 		}
 		glfwTerminate();

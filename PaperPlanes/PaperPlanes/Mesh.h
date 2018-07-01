@@ -68,6 +68,8 @@ public:
 		if (hasTexture) {
 			for (unsigned int i = 0; i < textures.size(); i++)
 			{
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 												  // retrieve texture number (the N in diffuse_textureN)
 				string number;
@@ -80,14 +82,23 @@ public:
 					number = std::to_string(normalNr++); // transfer unsigned int to stream
 				else if (name == "texture_height")
 					number = std::to_string(heightNr++); // transfer unsigned int to stream
-
+				
 														 // now set the sampler to the correct texture unit
 				glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
 				// and finally bind the texture
 				glBindTexture(GL_TEXTURE_2D, textures[i].id);
-				std::cout << "1" << endl;
+				//std::cout << "1" << endl;
+			}
+			if (textures.size() == 0) {
+				shader->setBool("hasTexture", false);
+			}
+			else {
+				shader->setBool("hasTexture", true);
 			}
 			shader->setVec3("objectColor", color);
+		}
+		else {
+			shader->setBool("hasTexture", false);
 		}
 		// draw mesh
 		glBindVertexArray(VAO);

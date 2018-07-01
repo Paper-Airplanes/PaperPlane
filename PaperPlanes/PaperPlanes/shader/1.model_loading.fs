@@ -3,15 +3,16 @@ out vec4 FragColor;
 
 in vec3 Normal;
 in vec3 FragPos;
-in vec2 TexCoords;
+in vec2 texCoord;
 in vec4 FragPosLightSpace;
 
+uniform bool hasTexture;
 uniform sampler2D shadowMap;
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
-
+uniform sampler2D texture_diffuse0;
 
 //uniform sampler2D texture_diffuse1;
 
@@ -69,7 +70,12 @@ void main()
 
 	// “ı”∞º∆À„
     float shadow = ShadowCalculation(FragPosLightSpace);  
-    vec3 result = (ambientStrength + (1.0 - shadow) * (diffuse + specular)) * lightColor * objectColor;
+	vec3 result;
+	if (hasTexture) {
+		result = (ambientStrength + (1.0 - shadow) * (diffuse + specular)) * lightColor * vec3(texture(texture_diffuse0, texCoord));
+	} else {
+		result = (ambientStrength + (1.0 - shadow) * (diffuse + specular)) * lightColor * objectColor;
+	}
 	FragColor = vec4(result, 1.0);
 
 }
