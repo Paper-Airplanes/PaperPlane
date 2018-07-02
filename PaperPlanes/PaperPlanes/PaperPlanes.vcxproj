@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)dependencies\Include;$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)dependencies\Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype\config;C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype;C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include;$(ProjectDir)dependencies\Include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\lib;$(ProjectDir)dependencies\Libraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir);$(ProjectDir)dependencies\Include;$(IncludePath)</IncludePath>
@@ -84,7 +84,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;reactphysics3d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,6 +141,7 @@
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextureProcess.h" />
     <ClInclude Include="Wave.h" />
   </ItemGroup>

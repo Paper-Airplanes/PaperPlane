@@ -4,6 +4,7 @@
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
+#include <glm/glm/gtx/norm.hpp>
 #include<Skybox.h>
 #include<Wave.h>
 #include <iostream>
@@ -15,6 +16,8 @@
 #include<Particle.h>
 #include<Light.h>
 #include <Collision.h>
+#include<Text.h>
+
 float lastX;
 float lastY;
 bool firstMouse;
@@ -34,6 +37,7 @@ private:
 	Shader* shadowShader;
 	Shader* waveShader;
 	Shader* lakeShader;
+	Shader* textShader;
 	//GameObject
 	Skybox* skybox;
 	Camera* camera;
@@ -52,6 +56,7 @@ private:
 	Model* spring;
 	Model* summer;
 	Model* autumn;
+	Text* text;
 
 public:
 	Game(float SCR_WIDTH, float SCR_HEIGHT) {
@@ -92,6 +97,7 @@ public:
 		shadowShader = new Shader("./shader/shadow_depth.vs", "./shader/shadow_depth.fs");
 		waveShader = new Shader("./shader/gridVertexShader.vs", "./shader/gridFragShader.fs");
 		lakeShader = new Shader("./shader/gridVertexShader1.vs", "./shader/gridFragShader.fs");
+		//textShader = new Shader("./shader/textshader.vs", "./shader/textshader.fs");
 		viewShader->use();
 		viewShader->setInt("shadowMap", 10);
 		
@@ -145,6 +151,8 @@ public:
 		wave = new Wave(0.8, 1.2, "./resources/texture/water-texture-2.tga");
 		//init lake
 		lake = new Wave(0.6, 0.6, "./resources/texture/water-texture-2.tga");
+		//init text
+		//text = new Text();
 	}
 
 	void renderView() {
@@ -168,6 +176,14 @@ public:
 		skyShader->setMat4("projection", projection);
 		skybox->draw();
 
+	}
+
+	void renderText() {
+		glm::vec3 color = glm::vec3(0.4f, 0.2f, 0.8f);
+		glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 760.0f);
+		textShader->use();
+		textShader->setMat4("projection", projection);
+		text->RenderText(*textShader, "Spring", 15.0f, 15.0f, 1.5f, glm::vec3(0.9f, 0.9f, 0.9f));
 	}
 	
 	
@@ -299,6 +315,7 @@ public:
 		renderWave();
 		renderLake();
 		renderSkybox();
+		//renderText();
 		if (season % 4 == 0) {
 			renderParticle();
 		}
