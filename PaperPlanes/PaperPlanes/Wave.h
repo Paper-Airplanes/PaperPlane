@@ -21,7 +21,7 @@
 #include <string>
 
 #include "Shader.h"
-#include "TextureProcess.h"
+#include <stb\stb_image.h>
 
 using namespace std;
 

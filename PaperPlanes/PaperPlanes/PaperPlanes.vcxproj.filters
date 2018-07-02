@@ -109,5 +109,11 @@
     <None Include="shader\gridVertexShader1.vs">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="shader\textshader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\textshader.vs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

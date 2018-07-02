@@ -59,10 +59,12 @@ public:
 
 
 	void init() {
-
-		glEnable(GL_CULL_FACE);
+		
+		//glEnable(GL_CULL_FACE);
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 
 		glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 760.0f);
 
@@ -131,6 +133,7 @@ public:
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+		//glDisable(GL_CULL_FACE);
 	}
 
 	void RenderText(Shader &s, std::string text, float x, float y, float scale, glm::vec3 color) {

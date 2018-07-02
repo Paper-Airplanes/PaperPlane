@@ -97,27 +97,15 @@ public:
 		shadowShader = new Shader("./shader/shadow_depth.vs", "./shader/shadow_depth.fs");
 		waveShader = new Shader("./shader/gridVertexShader.vs", "./shader/gridFragShader.fs");
 		lakeShader = new Shader("./shader/gridVertexShader1.vs", "./shader/gridFragShader.fs");
-		//textShader = new Shader("./shader/textshader.vs", "./shader/textshader.fs");
+		textShader = new Shader("./shader/textshader.vs", "./shader/textshader.fs");
 		viewShader->use();
 		viewShader->setInt("shadowMap", 10);
 		
 		//GameObject-----------------------------------------------------
 		//init camera
-		camera = new Camera(glm::vec3(50.0f, 50.0f, 50.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 50.0f);
+		camera = new Camera(glm::vec3(70.0f, 115.0f, 300.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 35.0f);
 		//init skybox
-		/*
 		vector<std::string> faces{
-			"./resources/Skybox/right.jpg",
-			"./resources/Skybox/left.jpg",
-			
-			"./resources/Skybox/top.jpg",
-			"./resources/Skybox/bottom.jpg",
-			
-			"./resources/Skybox/front.jpg",
-			"./resources/Skybox/back.jpg",
-		};
-		*/
-		vector<std::string> faces2{
 			"./resources/Skybox/starfield_rt.tga",
 			"./resources/Skybox/starfield_lf.tga",
 			"./resources/Skybox/starfield_up.tga",
@@ -126,8 +114,10 @@ public:
 			"./resources/Skybox/starfield_ft.tga",
 			
 		};
+		//init text
+		text = new Text();
 		//init skybox
-		skybox = new Skybox(faces2);
+		skybox = new Skybox(faces);
 		//init particle
 		snowparticle = new Particle("./resources/Particle/particle.dds");
 		//init model
@@ -151,8 +141,7 @@ public:
 		wave = new Wave(0.8, 1.2, "./resources/texture/water-texture-2.tga");
 		//init lake
 		lake = new Wave(0.6, 0.6, "./resources/texture/water-texture-2.tga");
-		//init text
-		//text = new Text();
+		
 	}
 
 	void renderView() {
@@ -183,7 +172,12 @@ public:
 		glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 760.0f);
 		textShader->use();
 		textShader->setMat4("projection", projection);
-		text->RenderText(*textShader, "Spring", 15.0f, 15.0f, 1.5f, glm::vec3(0.9f, 0.9f, 0.9f));
+		string te = "";
+		if (season % 4 == 1) te = "Spring";
+		else if (season % 4 == 2) te = "Summer";
+		else if (season % 4 == 3) te = "Autumn";
+		else if (season % 4 == 0) te = "Winter";
+		text->RenderText(*textShader, te, 15.0f, 15.0f, 1.5f, glm::vec3(0.9f, 0.9f, 0.9f));
 	}
 	
 	
@@ -201,11 +195,11 @@ public:
 		drawModel->Draw(shadowShader, false);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		glViewport(0, 0, 1280, 720);
+		glViewport(0, 0, 1280, 760);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//äÖÈ¾ÎïÌå-------------------------------------------------
-		glViewport(0, 0, 1280, 720);
+		glViewport(0, 0, 1280, 760);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderView();
 		glActiveTexture(GL_TEXTURE10);
@@ -282,7 +276,7 @@ public:
 		snowparticle->draw(camera,particleShader);
 	}
 	void renderScene() {
-		glViewport(0, 0, 1280, 720);
+		glViewport(0, 0, 1280, 760);
 	
 		
 		if (season % 4 == 0) {
@@ -310,12 +304,11 @@ public:
 		else if (season % 4 == 3) {
 			renderLogo(autumn);
 		}
-		//renderLogo();
 		renderPlane();
 		renderWave();
 		renderLake();
 		renderSkybox();
-		//renderText();
+		renderText();
 		if (season % 4 == 0) {
 			renderParticle();
 		}
@@ -329,18 +322,15 @@ public:
 
 		window = glfwCreateWindow(width, height, "PaperPlane", NULL, NULL);
 		glfwMakeContextCurrent(window);
-		glfwSetCursorPos(window, 1280 / 2, 720 / 2);
+		glfwSetCursorPos(window, 1280 / 2, 760 / 2);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		//glEnable(GL_DEPTH_TEST);
-		//glDepthFunc(GL_LESS);
 	}
 	void render() {
 		//initWindows(width, height);
 		if (!myCreateWindow(window, "PaperPlane", 1280, 760)) {
 			//return -1;
 		}
-		
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		initObject();
@@ -368,10 +358,12 @@ public:
 				if (flag == 0) {
 					flag = 1;
 					season++;
+
 				}
 			}
 			else {
 				flag = 0;
+
 			}
 			glfwSwapBuffers(window);
 			glfwPollEvents();
@@ -410,7 +402,7 @@ public:
 		lastX = xpos;
 		lastY = ypos;
 
-		float sensitivity = 0.28;
+		float sensitivity = 0.58;
 		xoffset *= sensitivity;
 		yoffset *= sensitivity;
 

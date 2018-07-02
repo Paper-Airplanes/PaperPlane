@@ -26,7 +26,7 @@ public:
 				by = true;
 			}
 		}
-		for (float i = cameraBody.x - 1; i < cameraBody.x + 1; i += 1) {
+		for (float i = cameraBody.z - 1; i < cameraBody.z + 1; i += 1) {
 			if (i < SpringLocation.z + range && i > SpringLocation.z - range) {
 				bz = true;
 			}
