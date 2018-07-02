@@ -14,8 +14,7 @@
 #include<Shader.h>
 #include<Particle.h>
 #include<Light.h>
-
-
+#include <Collision.h>
 float lastX;
 float lastY;
 bool firstMouse;
@@ -25,8 +24,9 @@ private:
 	float deltaTime;
 	float lastTime;
 	double xpos, ypos;
-	
+	int season;
 	float rotate_x, rotate_y;
+	Collision collision;
 	//Shader
 	Shader* particleShader;
 	Shader* skyShader;
@@ -37,7 +37,10 @@ private:
 	//GameObject
 	Skybox* skybox;
 	Camera* camera;
-	Model* scenemodel;
+	Model* wintermodel;
+	Model* springmodel;
+	Model* summermodel;
+	Model* autumnmodel;
 	Model* planemodel;
 	Particle* snowparticle;
 	GLFWwindow* window;
@@ -46,6 +49,9 @@ private:
 	Wave* wave;
 	Wave* lake;
 	Model* winter;
+	Model* spring;
+	Model* summer;
+	Model* autumn;
 
 public:
 	Game(float SCR_WIDTH, float SCR_HEIGHT) {
@@ -56,7 +62,7 @@ public:
 		lastTime = 0.0f;
 		lastX = (float)SCR_WIDTH / 2.0;
 		lastY = (float)SCR_HEIGHT / 2.0;
-
+		season = 0;
 		firstMouse = true;
 		//initCamera();
 	}
@@ -70,7 +76,10 @@ public:
 		delete shadow;
 		delete skybox;
 		delete camera;
-		delete scenemodel;
+		delete wintermodel;
+		delete summermodel;
+		delete springmodel;
+		delete autumnmodel;
 		delete wave;
 		delete lakeShader;
 		delete winter;
@@ -116,11 +125,17 @@ public:
 		//init particle
 		snowparticle = new Particle("./resources/Particle/particle.dds");
 		//init model
-		scenemodel = new Model("./resources/Scene/Winter.obj");
+		wintermodel = new Model("./resources/Scene/Winter.obj");
+		springmodel = new Model("./resources/Scene/Spring.obj");
+		summermodel = new Model("./resources/Scene/Summer.obj");
+		autumnmodel = new Model("./resources/Scene/Autumn.obj");
 		//init plane
 		planemodel = new Model("./resources/Plane/Plane.obj");
 		//init seasonlogo
 		winter = new Model("./resources/SeasonLogo/SpringLogo.obj");
+		spring = new Model("./resources/SeasonLogo/SummerLogo.obj");
+		summer = new Model("./resources/SeasonLogo/AutumnLogo.obj");
+		autumn = new Model("./resources/SeasonLogo/WinterLogo.obj");
 		//init light
 		light = new Light(glm::vec3(180.0f, 180.0f, -180.0f));
 		//light = new Light(glm::vec3(0.25, 0.25f, 1.0f));
@@ -156,7 +171,8 @@ public:
 	}
 	
 	
-	void renderModel() {
+	void renderModel(Model* seasonmode) {
+		Model* drawModel = seasonmode;
 		glm::mat4 model;
 		
 		model = glm::scale(model, glm::vec3(20.02f, 20.02f, 20.02f));
@@ -166,7 +182,7 @@ public:
 		shadowShader->setMat4("lightSpaceMatrix", light->lightSpaceMatrix);
 		shadow->draw();
 		shadowShader->setMat4("model", model);
-		scenemodel->Draw(shadowShader, false);
+		drawModel->Draw(shadowShader, false);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glViewport(0, 0, 1280, 720);
@@ -180,13 +196,13 @@ public:
 		glBindTexture(GL_TEXTURE_2D, shadow->depthMap);
 		
 		viewShader->setMat4("model", model);
-		scenemodel->Draw(viewShader, true);
+		drawModel->Draw(viewShader, true);
 
 		
 		
 	}
 
-	void renderLogo() {
+	void renderLogo(Model* logo) {
 		//renderView();
 		glm::mat4 model;
 
@@ -194,12 +210,12 @@ public:
 		
 		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
 		model = glm::scale(model, glm::vec3(5.02f, 5.02f, 5.02f));
-		model = glm::rotate(model, 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 		//model = glm::rotate(model, -90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, (float)glfwGetTime()*45.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, (float)glfwGetTime()*45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		
 		viewShader->setMat4("model", model);
-		winter->Draw(viewShader, true);
+		logo->Draw(viewShader, true);
 	}
 
 	void renderPlane() {
@@ -253,15 +269,39 @@ public:
 		glViewport(0, 0, 1280, 720);
 	
 		
-		
-		renderModel();
-		renderLogo();
+		if (season % 4 == 0) {
+			renderModel(wintermodel);
+		}
+		else if (season % 4 == 1) {
+			renderModel(springmodel);
+		}
+		else if (season % 4 == 2) {
+			renderModel(summermodel);
+		}
+		else if (season % 4 == 3) {
+			renderModel(autumnmodel);
+		}
+		//
+		if (season % 4 == 0) {
+			renderLogo(winter);
+		}
+		else if (season % 4 == 1) {
+			renderLogo(spring);
+		}
+		else if (season % 4 == 2) {
+			renderLogo(summer);
+		}
+		else if (season % 4 == 3) {
+			renderLogo(autumn);
+		}
+		//renderLogo();
 		renderPlane();
 		renderWave();
 		renderLake();
 		renderSkybox();
-		
-		renderParticle();
+		if (season % 4 == 0) {
+			renderParticle();
+		}
 	}
 
 	void initWindows(float width, float height) {
@@ -291,6 +331,7 @@ public:
 		
 		
 		//glClearColor(0.3,0.3,0.3,1.0);
+		int flag = 0;
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
@@ -304,7 +345,17 @@ public:
 
 			renderView();
 			renderScene();
-
+			collision.updateCameraBody(camera->getPosition().x, camera->getPosition().y, camera->getPosition().z);
+			if (collision.testCollision()) {
+				//cout << "fuck" << endl;
+				if (flag == 0) {
+					flag = 1;
+					season++;
+				}
+			}
+			else {
+				flag = 0;
+			}
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 			

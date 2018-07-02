@@ -2,13 +2,13 @@
 # Material Count: 1
 
 newmtl Spring
-Ns 96.078431
+Ns 94.117647
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
-illum 1
+illum 2
 map_Kd Spring.png
 map_d Spring.png
