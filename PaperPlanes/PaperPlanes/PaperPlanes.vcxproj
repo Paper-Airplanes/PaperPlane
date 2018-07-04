@@ -69,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype\config;E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype;E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include;$(ProjectDir)dependencies\Include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype\config;E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype;C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype\config;C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include\freetype;C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include;E:\OpenGL\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\include;$(ProjectDir)dependencies\Include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\95344\Documents\PaperPlane\PaperPlanes\PaperPlanes\dependencies\Include\freetype\lib;$(ProjectDir)dependencies\Libraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

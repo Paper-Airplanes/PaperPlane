@@ -122,18 +122,21 @@ public:
 		snowparticle = new Particle("./resources/Particle/particle.dds");
 		//init model
 		wintermodel = new Model("./resources/Scene/Winter.obj");
+		
 		springmodel = new Model("./resources/Scene/Spring.obj");
 		summermodel = new Model("./resources/Scene/Summer.obj");
 		autumnmodel = new Model("./resources/Scene/Autumn.obj");
 		//init plane
 		planemodel = new Model("./resources/Plane/Plane.obj");
 		//init seasonlogo
+		
 		winter = new Model("./resources/SeasonLogo/SpringLogo.obj");
 		spring = new Model("./resources/SeasonLogo/SummerLogo.obj");
 		summer = new Model("./resources/SeasonLogo/AutumnLogo.obj");
 		autumn = new Model("./resources/SeasonLogo/WinterLogo.obj");
+		
 		//init light
-		light = new Light(glm::vec3(180.0f, 180.0f, -180.0f));
+		light = new Light(glm::vec3(350.0f, 275.0f, 0.0f));
 		//light = new Light(glm::vec3(0.25, 0.25f, 1.0f));
 		//init shadow
 		shadow = new Shadow(viewShader);
@@ -188,13 +191,14 @@ public:
 		model = glm::scale(model, glm::vec3(20.02f, 20.02f, 20.02f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		//äÖÈ¾Éî¶ÈÍ¼------------------------------------------------
+		glCullFace(GL_FRONT);
 		shadowShader->use();
 		shadowShader->setMat4("lightSpaceMatrix", light->lightSpaceMatrix);
 		shadow->draw();
 		shadowShader->setMat4("model", model);
 		drawModel->Draw(shadowShader, false);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+		glCullFace(GL_BACK);
 		glViewport(0, 0, 1280, 760);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -277,8 +281,7 @@ public:
 	}
 	void renderScene() {
 		glViewport(0, 0, 1280, 760);
-	
-		
+
 		if (season % 4 == 0) {
 			renderModel(wintermodel);
 		}
@@ -312,6 +315,7 @@ public:
 		if (season % 4 == 0) {
 			renderParticle();
 		}
+
 	}
 
 	void initWindows(float width, float height) {
@@ -363,7 +367,7 @@ public:
 			}
 			else {
 				flag = 0;
-
+				//cout << "x:" << camera->getPosition().x << endl;
 			}
 			glfwSwapBuffers(window);
 			glfwPollEvents();

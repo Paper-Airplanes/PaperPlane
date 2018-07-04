@@ -10,7 +10,7 @@ public:
 		init(shader);
 	}
 	void draw() {
-		glViewport(0, 0, 1024, 1024);
+		glViewport(0, 0, 8192, 8192);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
@@ -24,7 +24,7 @@ private:
 		glGenTextures(1, &depthMap);
 		//glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 8192, 8192, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		/*
